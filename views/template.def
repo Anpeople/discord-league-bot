@@ -1,0 +1,80 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+        <div class="summoner-name">{{=it.summonerName}}</div>
+        <style>
+            body {
+              width: 600px;
+              height: 400px;
+            }
+            .summoner-name {
+                font-size: 20px;
+                font-weight: normal;
+            }
+            
+            .fl-table {
+                border-radius: 5px;
+                font-size: 12px;
+                font-weight: normal;
+                border: none;
+                border-collapse: collapse;
+                width: 100%;
+                max-width: 100%;
+                white-space: nowrap;
+                background-color: white;
+            }
+            
+            .fl-table td, .fl-table th {
+                text-align: center;
+                padding: 8px;
+            }
+            
+            .fl-table td {
+                border-right: 1px solid #f8f8f8;
+                font-size: 12px;
+            }
+            
+            .fl-table thead th {
+                color: #ffffff;
+                background: #4FC3A1;
+            }
+            
+            
+            .fl-table thead th:nth-child(odd) {
+                color: #ffffff;
+                background: #324960;
+            }
+            
+            .fl-table tr:nth-child(even) {
+                background: #F8F8F8;
+            }
+          </style>
+    </head>
+    <body>
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Mode</th>
+                        <th>Win</th>
+                        <th>KDA</th>
+                        <th>Champion</th>
+                        <th>Duration</th>
+                        <th>When</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th></th>
+                        <th>{{=it.winRate}}%</th>
+                        <th>{{=it.avgKda}}</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    {{=it.table}}
+                </tbody>
+            </table>
+        </div>
+        
+    </body>
+</html>
