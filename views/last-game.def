@@ -1,0 +1,5 @@
+<tr>
+    <th>{{=it.summonerName}}</th>
+    <th>{{=it.totalDamageDealt}}</th>
+    <th>{{=it.kda}}</th>
+</tr>

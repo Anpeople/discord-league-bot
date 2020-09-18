@@ -5,7 +5,7 @@
         <style>
             body {
               width: 650px;
-              height: 400px;
+              height: 500px;
             }
             .summoner-name {
                 font-size: 20px;
@@ -80,6 +80,21 @@
                     {{=it.table}}
                 </tbody>
             </table>
+        </div>
+        <br />
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Summoner</th>
+                        <th>Damage Dealt</th>
+                        <th>KDA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{=it.lastGameTable}}
+                </tbody>
+            <table>
         </div>
     </body>
 </html>

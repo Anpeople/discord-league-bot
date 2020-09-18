@@ -102,6 +102,7 @@ const generateStats = (matches, name, friendList) => {
     return new Promise((resolve, reject) => {
         try {
             var statArray = []
+            var lastGame = []
             matches.forEach(detailedMatch => {
                 //getting player participant id in every match by name
                 const participantId = detailedMatch.participantIdentities.filter((summoner) => {
@@ -122,9 +123,32 @@ const generateStats = (matches, name, friendList) => {
                     champion: detailedMatch.participants[participantId].championId,
                     totalDamageDealt: detailedMatch.participants[participantId].stats.totalDamageDealtToChampions,
                     ratFactor
-                    })  
+                    })
+                //check if it is the last game
+                if (detailedMatch.gameId === matches[0].gameId) {
+                    friendList.push(name)
+                    for (i in friendList) {
+                        const isPlayed = detailedMatch.participantIdentities.filter((summoner) => {
+                            return summoner.player.summonerName == friendList[i]}).length
+                        if (isPlayed) {
+                            const participantId = detailedMatch.participantIdentities.filter((summoner) => {
+                                return summoner.player.summonerName == friendList[i]
+                            })[0].participantId - 1 
+    
+                            lastGame.push({
+                                summonerName: friendList[i],
+                                totalDamageDealt: detailedMatch.participants[participantId].stats.totalDamageDealtToChampions, 
+                                kda: ((detailedMatch.participants[participantId].stats.kills + detailedMatch.participants[participantId].stats.assists)/
+                                detailedMatch.participants[participantId].stats.deaths).toFixed(1)
+    
+                            })
+                        }
+                        
+                    }
+                    friendList.pop()
+                }
             })
-            resolve(statArray)
+            resolve([statArray, lastGame])
         } catch(e) {
             reject("Unable to generate stats " + e)
         }
@@ -136,13 +160,13 @@ const getStat = async (name, friendList) => {
     const summonerName = await getSummonerByName(name)
     const lastMatches = await getLastMatches(summonerName.accountId)
     const detailedMatches = await getDetailedMatchDetails(lastMatches)
-    const stats = await generateStats(detailedMatches, name, friendList)
+    const [stats, lastGame] = await generateStats(detailedMatches, name, friendList)
     const statsWithChampions = await getChampionNamesFromArray(stats)
     const sortedStatsWithChampions = statsWithChampions.sort((a,b) => {
         return moment(a.startedAt) - moment(b.startedAt)
     })
 
-    return sortedStatsWithChampions
+    return [sortedStatsWithChampions, lastGame]
 }
 
 module.exports = getStat 

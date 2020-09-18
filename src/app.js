@@ -1,6 +1,6 @@
 const Discord = require('discord.js')
-const getStat = require('./league_async')
-const generateImage = require('./templating')
+const getStat = require('./leagueAsync')
+const generateImage = require('./createTemplate')
 DISCORD_TOKEN = process.env.DISCORD_TOKEN
 
 const client = new Discord.Client();
@@ -17,7 +17,6 @@ const getAvgs = (array) => {
   var avgRatFactor = 0
   var avgDamage = 0
   array.forEach(i => {
-    
     if (isNaN(i.kda)) i.kda = 0
     avgKda+=parseFloat(i.kda)
     avgRatFactor+=parseFloat(i.ratFactor)
@@ -38,11 +37,11 @@ client.on('message', async (message) => {
 
 
   try {
-    const stats = await getStat(name, friendListFiltered)
+    const [stats, lastGame] = await getStat(name, friendListFiltered)
     const [avgKda, winRate, avgRatFactor, avgDamage] = getAvgs(stats)
-    console.log(avgRatFactor, avgDamage, typeof(avgDamage), typeof(avgRatFactor))
-    await generateImage(stats, name, avgKda, winRate, avgRatFactor, avgDamage)
-    message.reply("here is stat", { files: ['image.png']})
+    console.log(lastGame)
+    await generateImage(stats, name, avgKda, winRate, avgRatFactor, avgDamage, lastGame)
+    message.reply("here is stat", { files: ['image.png'] })
   } catch (e) {
     message.reply("something went wrong with checking " + name + "\n" + e)
   }

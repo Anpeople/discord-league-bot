@@ -17,3 +17,14 @@ array = {
 
 const ratFactor = 100 - array.arr.filter((el) => friendList.includes(el.name)).length * (100/friendList.length)
 console.log(ratFactor)
+console.log(friendList[friendList.length-1])
+
+const check = () => {
+    return [ ['somethiong', 'aga'], ['onemore', 'haha'] ]
+}
+
+const [wow, sus] = check()
+console.log(wow)
+
+const fullList = friendList.push('name')
+console.log(fullList, friendList)
