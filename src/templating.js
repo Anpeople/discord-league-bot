@@ -4,8 +4,7 @@ const nodeHtmlToImage = require('node-html-to-image')
 
 
 function generateImage (gameArray, summonerName, avgKda, winRate) {
-    console.log("STarting generationg img")
-    console.log('Current directory: ' + process.cwd());
+    console.log("Sеarting generationg img")
     return new Promise((resolve, reject) => {
         try {
             const tableTemplate = fs.readFileSync('views/table.def').toString();

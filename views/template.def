@@ -59,6 +59,7 @@
                         <th>Win</th>
                         <th>KDA</th>
                         <th>Champion</th>
+                        <th>Damage Dealt</th>
                         <th>Duration</th>
                         <th>When</th>
                     </tr>
@@ -75,6 +76,5 @@
                 </tbody>
             </table>
         </div>
-        
     </body>
 </html>

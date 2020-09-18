@@ -3,6 +3,7 @@
     <th>{{=it.winState}}</th>
     <th>{{=it.kda}}</th>
     <th>{{=it.champion}}</th>
+    <th>{{=it.totalDamageDealt}}</th>
     <th>{{=it.duration}}m</th>
     <th>{{=it.startedAt}}</th>
 </tr>

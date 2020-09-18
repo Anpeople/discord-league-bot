@@ -27,16 +27,12 @@ client.on('message', message => {
       data.forEach(i => {
         avgKda+=parseFloat(i.kda)
         winRate+=i.winState
-        msg+="```" + i.startedAt + " | " + i.duration + "m | [" + i.mode + "] " + (i.winState === false ? "[LOSE]" : "[WIN]") + " kda: " + i.kda + ", champ: " + i.champion + "```"
       })
       avgKda/=data.length
       winRate/=data.length
-      msg+="`avg KDA: " + avgKda.toFixed(1) + "` `win rate: " + winRate*100 + "%`"
-      console.log('Current directory: ' + process.cwd());
       generateImage(data, name, avgKda.toFixed(1), winRate*100)
-      .then(() => message.reply("Here is stat", { files: ['image.png']}))
+      .then(() => message.reply("here is stat", { files: ['image.png']}))
       .catch((e) => console.log(e))
-      // return message.reply(msg)
     }).catch(error => message.reply("something went wrong with checking " + name + "\n" + error)) 
   } else {
     var avgKda = 0

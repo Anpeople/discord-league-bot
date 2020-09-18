@@ -79,6 +79,7 @@ const getMatchDetails = (id) => {
                 reject("Unable to connect to league api")
             }
             if(response.body) {
+                console.log(response)
                 resolve (response.body)
             }
             reject('Got empty body for getMatchDetails')
@@ -88,6 +89,7 @@ const getMatchDetails = (id) => {
 
 
 const getDetailedMatchDetails = (matches) => {
+    console.log(matches)
     return new Promise((resolve, reject) => {
         try {
             let promiseArray = matches.map(match => match.gameId).map(getMatchDetails)
@@ -107,7 +109,7 @@ const generateStats = (matches, name) => {
                 //getting player participant id in every match by name
                 const participantId = detailedMatch.participantIdentities.filter((summoner) => {
                     return summoner.player.summonerName == name
-                })[0].participantId
+                })[0].participantId - 1 
 
                 //getting win state
                 const winState = detailedMatch.participants[participantId-1].stats.win
@@ -117,9 +119,10 @@ const generateStats = (matches, name) => {
                     winState,
                     duration: (detailedMatch.gameDuration/60).toFixed(1),
                     startedAt: moment(detailedMatch.gameCreation).format('YYYY-MM-DD hh:mm:ss'),
-                    kda: ((detailedMatch.participants[participantId-1].stats.kills + detailedMatch.participants[participantId-1].stats.assists)/
-                    detailedMatch.participants[participantId-1].stats.deaths).toFixed(1),
-                    champion: detailedMatch.participants[participantId-1].championId
+                    kda: ((detailedMatch.participants[participantId].stats.kills + detailedMatch.participants[participantId-1].stats.assists)/
+                    detailedMatch.participants[participantId].stats.deaths).toFixed(1),
+                    champion: detailedMatch.participants[participantId].championId,
+                    totalDamageDealt: detailedMatch.participants[participantId].stats.totalDamageDealtToChampions
                     })  
             })
             resolve(statArray)
