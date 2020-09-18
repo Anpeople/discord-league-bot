@@ -14,12 +14,17 @@ client.on('ready', () => {
 const getAvgs = (array) => {
   var avgKda = 0
   var winRate = 0
+  var avgRatFactor = 0
+  var avgDamage = 0
   array.forEach(i => {
+    
     if (isNaN(i.kda)) i.kda = 0
     avgKda+=parseFloat(i.kda)
+    avgRatFactor+=parseFloat(i.ratFactor)
+    avgDamage+=parseFloat(i.totalDamageDealt)
     winRate+=i.winState
   })
-  return [ (avgKda/=array.length).toFixed(1) , (winRate/=array.length) * 100 ]
+  return [ (avgKda/=array.length).toFixed(1) , (winRate/=array.length) * 100, (avgRatFactor/=array.length).toFixed(0), (avgDamage/=array.length).toFixed(0) ]
 }
 
 
@@ -33,9 +38,10 @@ client.on('message', async (message) => {
 
 
   try {
-    const stats = await getStat(name)
-    const [avgKda, winRate] = getAvgs(stats)
-    await generateImage(stats, name, avgKda, winRate)
+    const stats = await getStat(name, friendListFiltered)
+    const [avgKda, winRate, avgRatFactor, avgDamage] = getAvgs(stats)
+    console.log(avgRatFactor, avgDamage, typeof(avgDamage), typeof(avgRatFactor))
+    await generateImage(stats, name, avgKda, winRate, avgRatFactor, avgDamage)
     message.reply("here is stat", { files: ['image.png']})
   } catch (e) {
     message.reply("something went wrong with checking " + name + "\n" + e)

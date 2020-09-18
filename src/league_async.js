@@ -98,8 +98,7 @@ const getDetailedMatchDetails = (matches) => {
     })
 }
 
-const generateStats = (matches, name) => {
-
+const generateStats = (matches, name, friendList) => {
     return new Promise((resolve, reject) => {
         try {
             var statArray = []
@@ -111,6 +110,7 @@ const generateStats = (matches, name) => {
 
                 //getting win state
                 const winState = detailedMatch.participants[participantId].stats.win
+                const ratFactor = (100 - detailedMatch.participantIdentities.filter((summoner) => friendList.includes(summoner.player.summonerName)).length * (100/friendList.length)).toFixed(0)
                 
                 statArray.push({
                     mode: detailedMatch.gameMode, 
@@ -120,7 +120,8 @@ const generateStats = (matches, name) => {
                     kda: ((detailedMatch.participants[participantId].stats.kills + detailedMatch.participants[participantId].stats.assists)/
                     detailedMatch.participants[participantId].stats.deaths).toFixed(1),
                     champion: detailedMatch.participants[participantId].championId,
-                    totalDamageDealt: detailedMatch.participants[participantId].stats.totalDamageDealtToChampions
+                    totalDamageDealt: detailedMatch.participants[participantId].stats.totalDamageDealtToChampions,
+                    ratFactor
                     })  
             })
             resolve(statArray)
@@ -130,12 +131,12 @@ const generateStats = (matches, name) => {
     })
 }
 
-const getStat = async (name) => {
+const getStat = async (name, friendList) => {
 
     const summonerName = await getSummonerByName(name)
     const lastMatches = await getLastMatches(summonerName.accountId)
     const detailedMatches = await getDetailedMatchDetails(lastMatches)
-    const stats = await generateStats(detailedMatches, name)
+    const stats = await generateStats(detailedMatches, name, friendList)
     const statsWithChampions = await getChampionNamesFromArray(stats)
     const sortedStatsWithChampions = statsWithChampions.sort((a,b) => {
         return moment(a.startedAt) - moment(b.startedAt)

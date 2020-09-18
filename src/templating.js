@@ -3,7 +3,7 @@ const fs = require('fs')
 const nodeHtmlToImage = require('node-html-to-image')
 
 
-function generateImage (gameArray, summonerName, avgKda, winRate) {
+function generateImage (gameArray, summonerName, avgKda, winRate, avgRatFactor, avgDamage) {
     console.log("Sеarting generationg img")
     return new Promise((resolve, reject) => {
         try {
@@ -16,7 +16,7 @@ function generateImage (gameArray, summonerName, avgKda, winRate) {
 
             const template = fs.readFileSync('views/template.def').toString();
             const result = dot.template(template)
-            const renderedString = result(({summonerName, avgKda, winRate, table}))
+            const renderedString = result(({summonerName, avgKda, winRate, avgRatFactor, avgDamage, table}))
 
             // fs.writeFileSync('views/rendered.html', renderedString)
 
