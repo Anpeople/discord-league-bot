@@ -5,7 +5,7 @@ DISCORD_TOKEN = process.env.DISCORD_TOKEN
 
 const client = new Discord.Client();
 const prefix = '+++'
-const friendList = ['Gripp03', 'Gripp04', 'Villentretermert', 'Attomorphlin' ]
+const friendList = ['Gripp04', 'Villentretermert', 'Attomorphlin', 'StariBukaka' ]
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);

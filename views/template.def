@@ -5,7 +5,7 @@
         <style>
             body {
               width: 650px;
-              height: 500px;
+              height: 600px;
             }
             .summoner-name {
                 font-size: 20px;
@@ -81,7 +81,7 @@
                 </tbody>
             </table>
         </div>
-        <br />
+        <br /> Last Game
         <div class="table-wrapper">
             <table class="fl-table">
                 <thead>
